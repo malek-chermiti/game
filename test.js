@@ -1,67 +1,89 @@
-function getHumanChoice() {
-    const k = Number(prompt("paper => number > 0\nrock => number < 0\nscissors => number == 0"));
-    let ch;
-    if (k > 0) {
-        ch = "paper";
-    } else if (k < 0) {
-        ch = "rock";
-    } else {
-        ch = "scissors";
-    }
-    return ch;
-}
-
 function getComputerChoice() {
-    const k= (Math.random());
+    const k = Math.random() * 3;
     let ch;
-    if (k > 0) {
-        ch = "paper";
-    } else if (k < 0) {
+    if (k < 1) {
         ch = "rock";
+    } else if (k < 2) {
+        ch = "paper";
     } else {
         ch = "scissors";
     }
     return ch;
 }
 
-function playRound(humanChoice, computerChoice) {
+let computerChoice=""
+let humanChoice = ""
+
+
+function playRound() {
     if (humanChoice === computerChoice) {
         return "kifkif!";
     }
 
-    if (
+    else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
-    ) {
+    ) 
         return "rbe7t";
-    } else {
+     else {
         return "khsert";
     }
 }
+ 
 
 function game() {
+    let result
     let humanScore = 0;
     let computerScore = 0;
-
-    for (let i = 0; i < 5; i++) {
-        const human = getHumanChoice();
-        const computer = getComputerChoice()
-        const result = playRound(human, computer);
-        console.log(result);
-
-        if (result === "rbe7t") {
-            humanScore++;
-        } else if (result === "khsert") {
-            computerScore++;
+    const aff=document.querySelector("#affich_res")
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+    button.addEventListener("click", (b) => {
+    humanChoice = b.target.textContent
+    console.log("l'user a choisi : "+humanChoice) /*recuperation de*/
+    computerChoice = getComputerChoice()
+    console.log("le computer a choisi : "+computerChoice)/*  resultats taa tor7 bark*/
+    result=playRound()
+    console.log(result) //lanci tor7
+    score(result)
+    if (humanScore<5 && computerScore <5)
+   { let ch="l'user a choisi :"+humanChoice + "<br> le computer a choisi : " + computerChoice +  "<br> le score de computer : "+ computerScore +  "<br> votre score : " + humanScore +  "<br> le resultat de round : "+ result
+    aff.innerHTML=ch} 
+    if(humanScore == 5 || computerScore == 5) {
+            
+            computerScore=0
+            humanScore=0
+            
         }
-    }
-    if (humanScore > computerScore) {
-        console.log("maalim sahbi");
-    } else if (computerScore > humanScore) {
-        console.log("ya nari alik sahbi!")
-    } else {
-        console.log("hakon 9ad9ad!");
-    }
+  });//oskot le nji nlefik
+});
+    function score(result){
+        console.log(aff)
+
+        if (result === "rbe7t" && humanScore<5) {
+            humanScore++;
+            console.log("humanScore  "+humanScore)
+        } 
+        if (result === "khsert" && computerScore <5) {// lewh andonaleha acces lweh naamil alehom access aaasln!!
+            computerScore++;
+            console.log("computerScore  "+computerScore)
+        }  
+        if(humanScore==5)  
+
+           {
+            aff.innerHTML=""
+            console.log( " RESET   rbe7t mdmellle !!!!")
+            aff.innerHTML=" RESET rbe7t mdmellle !!!!"
+            }
+        if(computerScore==5){
+            aff.innerHTML=""
+            console.log("RESET  reb7 lpc !!")  
+            aff.innerHTML="RESET  rbe7 pc!!"
+        }
+       
+        
+    } 
 }
+game()
 
